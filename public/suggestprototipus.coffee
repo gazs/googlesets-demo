@@ -40,6 +40,8 @@ $(document).ready ->
       one.$('input')[0].focus()
 
   class Suggestion extends Backbone.View
+    tagName: 'a'
+    className: 'suggestion'
     events:
       'click': 'addMeToTheWords'
     render: ->

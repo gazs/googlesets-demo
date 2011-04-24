@@ -99,6 +99,8 @@
         this.addMeToTheWords = __bind(this.addMeToTheWords, this);;        Suggestion.__super__.constructor.apply(this, arguments);
       }
       __extends(Suggestion, Backbone.View);
+      Suggestion.prototype.tagName = 'a';
+      Suggestion.prototype.className = 'suggestion';
       Suggestion.prototype.events = {
         'click': 'addMeToTheWords'
       };
@@ -117,7 +119,6 @@
             value: ''
           }));
         } else {
-          console.log("nem az az ág");
           return inputsview.collection.add(this.model);
         }
       };
@@ -147,7 +148,6 @@
       };
       SuggestionsView.prototype.getSuggestions = function() {
         var words;
-        console.log("suggestion");
         words = this.inputs.pluck('value');
         return $.get("/sets/large/" + (JSON.stringify(words)), __bind(function(results) {
           $(this.el).html("");
