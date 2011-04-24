@@ -11,6 +11,7 @@ $(document).ready ->
       'click .add': 'addNew'
       'click .remove': 'deleteMe'
       'keypress input': 'doStuffOnKeyPress'
+      'blur input': 'doStuffOnKeyPress'
     initialize: ->
       @model.bind 'all', @render
     render: =>
@@ -72,12 +73,20 @@ $(document).ready ->
       one = new Suggestion model:word, collection: @collection
       @el.append one.render().el
     getSuggestions: =>
-      words = @inputs.pluck('value')
-      $.get "/sets/large/#{JSON.stringify(words)}", (results) =>
-        $(@el).html("")
-        _.each JSON.parse(results), (result) =>
-          if result not in words
-            @addOne(result)
+      window.words = @inputs.pluck('value')
+      return false if words.length == 1 && words[0] == ""
+      $.ajax
+        type: 'GET'
+        url: "/sets/large/#{JSON.stringify(words)}"
+        success: (results) =>
+          $(@el).html("")
+          _.each JSON.parse(results), (result) =>
+            if result not in words
+              @addOne(result)
+        error: (xhr, type) =>
+          console.log type
+          $(@el).html "<b>se mi, se szergej, se larry nem tud erre mit javasolni. szerintem törölj párat</b>"
+          #return false
 
   window.inputsview = new InputsView
 

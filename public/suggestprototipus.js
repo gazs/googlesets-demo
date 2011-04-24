@@ -41,7 +41,8 @@
       TextInput.prototype.events = {
         'click .add': 'addNew',
         'click .remove': 'deleteMe',
-        'keypress input': 'doStuffOnKeyPress'
+        'keypress input': 'doStuffOnKeyPress',
+        'blur input': 'doStuffOnKeyPress'
       };
       TextInput.prototype.initialize = function() {
         return this.model.bind('all', this.render);
@@ -151,16 +152,26 @@
         return this.el.append(one.render().el);
       };
       SuggestionsView.prototype.getSuggestions = function() {
-        var words;
-        words = this.inputs.pluck('value');
-        return $.get("/sets/large/" + (JSON.stringify(words)), __bind(function(results) {
-          $(this.el).html("");
-          return _.each(JSON.parse(results), __bind(function(result) {
-            if (__indexOf.call(words, result) < 0) {
-              return this.addOne(result);
-            }
-          }, this));
-        }, this));
+        window.words = this.inputs.pluck('value');
+        if (words.length === 1 && words[0] === "") {
+          return false;
+        }
+        return $.ajax({
+          type: 'GET',
+          url: "/sets/large/" + (JSON.stringify(words)),
+          success: __bind(function(results) {
+            $(this.el).html("");
+            return _.each(JSON.parse(results), __bind(function(result) {
+              if (__indexOf.call(words, result) < 0) {
+                return this.addOne(result);
+              }
+            }, this));
+          }, this),
+          error: __bind(function(xhr, type) {
+            console.log(type);
+            return $(this.el).html("<b>se mi, se szergej, se larry nem tud erre mit javasolni. szerintem törölj párat</b>");
+          }, this)
+        });
       };
       return SuggestionsView;
     })();
