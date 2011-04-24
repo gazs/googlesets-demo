@@ -1,0 +1,9 @@
+body {
+  font-family: sans
+}
+#suggestionsbox {
+width:600px;
+}
+
+.suggestion {cursor:pointer; float:left; margin: 5px; border: 1px solid #bbb; padding:5px; border-radius:10px; background-color: #ddd }
+.suggestion:hover { background-color: #666 }
