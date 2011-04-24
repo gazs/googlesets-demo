@@ -33,7 +33,8 @@
       function TextInput() {
         this.doStuffOnKeyPress = __bind(this.doStuffOnKeyPress, this);;
         this.deleteMe = __bind(this.deleteMe, this);;
-        this.addNew = __bind(this.addNew, this);;        TextInput.__super__.constructor.apply(this, arguments);
+        this.addNew = __bind(this.addNew, this);;
+        this.render = __bind(this.render, this);;        TextInput.__super__.constructor.apply(this, arguments);
       }
       __extends(TextInput, Backbone.View);
       TextInput.prototype.template = _.template($('#input').html());
@@ -41,6 +42,9 @@
         'click .add': 'addNew',
         'click .remove': 'deleteMe',
         'keypress input': 'doStuffOnKeyPress'
+      };
+      TextInput.prototype.initialize = function() {
+        return this.model.bind('all', this.render);
       };
       TextInput.prototype.render = function() {
         $(this.el).html(this.template(this.model.toJSON()));
@@ -92,7 +96,7 @@
     })();
     Suggestion = (function() {
       function Suggestion() {
-        Suggestion.__super__.constructor.apply(this, arguments);
+        this.addMeToTheWords = __bind(this.addMeToTheWords, this);;        Suggestion.__super__.constructor.apply(this, arguments);
       }
       __extends(Suggestion, Backbone.View);
       Suggestion.prototype.events = {
@@ -105,12 +109,15 @@
       Suggestion.prototype.addMeToTheWords = function() {
         var uccso;
         uccso = inputsview.collection.last();
-        console.log(uccso.toJSON());
-        if (uccso.get('value' === '')) {
-          return uccso.set({
+        if (uccso.get('value') === '') {
+          uccso.set({
             value: this.model.get('value')
           });
+          return inputsview.collection.add(new Word({
+            value: ''
+          }));
         } else {
+          console.log("nem az az ág");
           return inputsview.collection.add(this.model);
         }
       };
@@ -140,6 +147,7 @@
       };
       SuggestionsView.prototype.getSuggestions = function() {
         var words;
+        console.log("suggestion");
         words = this.inputs.pluck('value');
         return $.get("/sets/large/" + (JSON.stringify(words)), __bind(function(results) {
           $(this.el).html("");

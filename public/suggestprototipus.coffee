@@ -11,7 +11,9 @@ $(document).ready ->
       'click .add': 'addNew'
       'click .remove': 'deleteMe'
       'keypress input': 'doStuffOnKeyPress'
-    render: ->
+    initialize: ->
+      @model.bind 'all', @render
+    render: =>
       $(@el).html @template @model.toJSON()
       return this
     addNew: =>
@@ -44,13 +46,12 @@ $(document).ready ->
       $(@el).html @model.get 'value'
       return this
 
-
-    addMeToTheWords: ->
+    addMeToTheWords: =>
       uccso = inputsview.collection.last()
-      console.log uccso.toJSON()
-      if uccso.get 'value' is ''
+      if uccso.get('value') == ''
         uccso.set
-          value: @model.get 'value'
+          value: @model.get('value')
+        inputsview.collection.add new Word value: ''
       else
         inputsview.collection.add @model
 
