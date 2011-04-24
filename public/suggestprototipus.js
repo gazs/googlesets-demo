@@ -79,8 +79,11 @@
       InputsView.prototype.el = $('#inputlist');
       InputsView.prototype.initialize = function() {
         this.collection.bind('add', this.addOne);
-        return this.collection.add({
-          value: 'egy'
+        this.collection.add({
+          value: ''
+        });
+        return this.suggestionsview = new SuggestionsView({
+          inputs: this.collection
         });
       };
       InputsView.prototype.addOne = function(word) {
@@ -133,7 +136,8 @@
       SuggestionsView.prototype.el = $('#suggestionsbox');
       SuggestionsView.prototype.initialize = function() {
         this.inputs = this.options.inputs;
-        return this.inputs.bind('all', this.getSuggestions);
+        this.inputs.bind('all', this.getSuggestions);
+        return this.getSuggestions();
       };
       SuggestionsView.prototype.addOne = function(suggestion) {
         var one, word;
@@ -160,9 +164,6 @@
       };
       return SuggestionsView;
     })();
-    window.inputsview = new InputsView;
-    return window.suggestionsview = new SuggestionsView({
-      inputs: inputsview.collection
-    });
+    return window.inputsview = new InputsView;
   });
 }).call(this);

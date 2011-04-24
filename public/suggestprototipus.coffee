@@ -33,6 +33,8 @@ $(document).ready ->
     initialize: ->
       @collection.bind 'add', @addOne
       @collection.add value: ''
+      @suggestionsview = new SuggestionsView
+        inputs: @collection
     addOne: (word) =>
 
       one = new TextInput model:word, collection: @collection
@@ -64,6 +66,7 @@ $(document).ready ->
     initialize: ->
       @inputs = @options.inputs
       @inputs.bind 'all', @getSuggestions
+      @getSuggestions()
     addOne: (suggestion) ->
       word = new Word value: suggestion
       one = new Suggestion model:word, collection: @collection
@@ -77,6 +80,4 @@ $(document).ready ->
             @addOne(result)
 
   window.inputsview = new InputsView
-  window.suggestionsview = new SuggestionsView
-    inputs: inputsview.collection
 
