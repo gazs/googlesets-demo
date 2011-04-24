@@ -32,7 +32,7 @@ $(document).ready ->
     el: $('#inputlist')
     initialize: ->
       @collection.bind 'add', @addOne
-      @collection.add value: 'egy'
+      @collection.add value: ''
     addOne: (word) =>
 
       one = new TextInput model:word, collection: @collection
@@ -63,7 +63,7 @@ $(document).ready ->
     el: $('#suggestionsbox')
     initialize: ->
       @inputs = @options.inputs
-      @inputs.bind 'add', @getSuggestions
+      @inputs.bind 'all', @getSuggestions
     addOne: (suggestion) ->
       word = new Word value: suggestion
       one = new Suggestion model:word, collection: @collection

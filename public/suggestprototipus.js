@@ -133,7 +133,7 @@
       SuggestionsView.prototype.el = $('#suggestionsbox');
       SuggestionsView.prototype.initialize = function() {
         this.inputs = this.options.inputs;
-        return this.inputs.bind('add', this.getSuggestions);
+        return this.inputs.bind('all', this.getSuggestions);
       };
       SuggestionsView.prototype.addOne = function(suggestion) {
         var one, word;
