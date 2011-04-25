@@ -1,3 +1,6 @@
+// A Nodester, ahova deployoltuk a kódot, minden áron egy .js fájlt akar elindítani szervernek.
+// Az eval miatt van bűntudatom bőven, persze, de a célnak megfelel és annyira talán nem is otromba.
+
 var fs = require('fs');
 var coffee = require('coffee-script');
 
